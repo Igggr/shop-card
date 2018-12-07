@@ -1,0 +1,13 @@
+body {
+    background-color: aqua;
+}
+
+.wagon {
+    height: auto;
+    width: 100px;
+    position: absolute;
+}
+
+.moveToOrder {
+    
+}
