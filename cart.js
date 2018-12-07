@@ -1,14 +1,15 @@
-
-
 $(function() {
     updateGoalCoord(goalCoord);
     let rw = $(".row").children().children(".row");   //TODO: rewrite more accuratly
-    console.log(productsList);
-    productsList.forEach(function(product){
-        rw.append(productDiv(product));
-        //rw.html( rw.html() + productDiv(product));        
-    });
-
+    console.log(productsDict);
+    
+    
+    for (let key in productsDict) {
+        let product = productsDict[key];
+        console.log(product);
+        rw.append(productDiv(product))
+    }
+   
     var products = $(".col.col-xs-12.col-md-6.col-lg-4");
     var btn = $('<input/>').attr({
                                  type: "button",
@@ -85,6 +86,9 @@ function addToCard(price, product) {
     showNewShoppingCartForm(product);
 }
 
+function productFromId(id) {
+    return products[id];
+}
 function removeOldShoppingCartForm() {
     $(".cart").empty();
 }
