@@ -2,12 +2,13 @@ body {
     background-color: aqua;
 }
 
+.product {
+    z-index: 1;    
+}
+
 .wagon {
     height: auto;
     width: 100px;
     position: absolute;
-}
-
-.moveToOrder {
-    
+    z-index : 2;
 }

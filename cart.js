@@ -1,50 +1,4 @@
-let subTotal = 0;
-let tax = 0;
-let totalWithTax = 0;
-let productsToOder = [];
-let wagonImage = "images/wagon.png";
-let goalCoord = [0, 0];   //wagons will move here
 
-var productsList = 
-        [productInfo("The Ring", 999999, "invisibility + 1000", "one ring for", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),
-        productInfo("Silmaril", 77777, "beateful stones", "was created in first epoch", generateId(), "ring.jpg"),            
-        ];
-
-function productInfo(name_, price_, description_, full_descr_, id_, image_){
-    return {name: name_, price: price_, description: description_, full_descr: full_descr_, id: id_, image: image_};
-}
-
-function closure() {
-    let n = 0;
-    return () => n++;
-}
-
-function increasingNumbers() {
-    return closure(); 
-}
-
-function generateId() { 
-    return `productId#${increasingNumbers()}`; 
-}
-/*
-$(window).resize() {
-    updateGoalCoord(goalCoord);
-}
-*/
-
-function updateGoalCoord(goalCoord) {
-    goalCoord[0] = window.innerWidth;
-    goalCoord[1] = 50;
-}
 
 $(function() {
     updateGoalCoord(goalCoord);
@@ -79,7 +33,7 @@ function productDiv(product) {
     */
     return `<div class="col col-xs-12 col-md-6 col-lg-4">
                <div id ="${product.id}">
-                  <img src=images/${product.image}>
+                  <img class="product" src=images/${product.image}>
                </div>
                <h2>${product.name}</h2>
                <p>${product.description}</p>
@@ -102,19 +56,22 @@ function animationThenAToCart() {
 }
 
 function makeWagon () {
-    return $("<img/>", {src: 'images/wagon.png' , class: "wagon", "z-index": 2});
+    return $("<img/>", {src: 'images/wagon.png' , class: "wagon"});
 }
 
 
 function wagonMove(price, product) { //TODO: wagon must move
     let wagon = makeWagon();
     $("body").append(wagon);
-    wagon.animate({left: "1000px", top: 0,opacity: 0.3, width: '200px' }, 700);
+    wagon.animate({left: goalCoord[0], top: goalCoord[1], opacity: 0.3, width: '200px' }, 
+                  1500, 
+                  () => addToCard(price, product)
+                 );
     //wagon.moveTo(window.innerWidth, 0);
     //$("body").append("<img src = 'images/wagon.png'>");
     //.animate({left: "+=1000px"}, 7000);
     replaceWagon();
-    addToCard(price, product);
+    
 }
 
 function replaceWagon() {
