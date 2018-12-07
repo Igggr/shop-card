@@ -11,12 +11,10 @@ $(function() {
     }
    
     var products = $(".col.col-xs-12.col-md-6.col-lg-4");
-    var btn = $('<input/>').attr({
-                                 type: "button",
-                                 value: "add"
-                                });
-    products.append(btn);
-    $("input").click(animationThenAToCart);
+    products.append(makeWagon());
+    products.append($("<img/>", {src: 'images/redHeart.png' , class: "heart"}))
+    $(".wagon").click(animationThenAddToCart);
+    $(".heart").click(toggleFavorite);
 });
 
 function productDiv(product) {
@@ -39,21 +37,18 @@ function productDiv(product) {
                <h2>${product.name}</h2>
                <p>${product.description}</p>
                <p>\$${product.price}</p>
-            </div>`
-           
+            </div>`          
 }
 
+function animationThenAddToCart() { 
+    let id = idOfClickedProduct($(this));
+    blink($("#id"), 500);
+    wagonMove(id);
+}
 
-function animationThenAToCart() { 
-    $(this).prev().prev().prev().prev().css("background-color", "red").animate({left: "1000px", opacity:0.1}, 700);
-    let prcTag = $(this).prev();
-    let price = parseFloat(prcTag.text().slice(1));
-    let product = prcTag.prev().text();
-    console.log(`added product : ${product}, price: "${price}"`)
-    wagonMove(price, product)
-    //updateCostOfOrder(price);
-    //removeOldShoppingCartForm();
-    //showNewShoppingCartForm(product);
+function blink(blinkMe, time) {
+     blinkMe.animate({left: "1000px", opacity:.1}, time)
+            .animate({left: "1000px", opacity:1}, time);
 }
 
 function makeWagon () {
@@ -61,63 +56,55 @@ function makeWagon () {
 }
 
 
-function wagonMove(price, product) { //TODO: wagon must move
+function wagonMove(id) { //TODO: [x] wagon must move
     let wagon = makeWagon();
     $("body").append(wagon);
     wagon.animate({left: goalCoord[0], top: goalCoord[1], opacity: 0.3, width: '200px' }, 
                   1500, 
-                  () => addToCard(price, product)
+                  () => addToCard(id)
                  );
-    //wagon.moveTo(window.innerWidth, 0);
-    //$("body").append("<img src = 'images/wagon.png'>");
-    //.animate({left: "+=1000px"}, 7000);
-    replaceWagon();
-    
+    replaceWagon();    
 }
 
 function replaceWagon() {
     
 }
 
-function addToCard(price, product) {
-    console.log(`product in the shopping card: ${product}, price: "${price}"`)
+function addToCard(id) {
+    let price = productsDict[id]["price"];
+    console.log(`product in the shopping card: ${productsDict[id]["name"]}, price: "${price}"`)
     updateCostOfOrder(price);
     removeOldShoppingCartForm();
-    showNewShoppingCartForm(product);
+    newShoppingCartForm(id);
 }
 
 function productFromId(id) {
     return products[id];
 }
+
 function removeOldShoppingCartForm() {
     $(".cart").empty();
 }
 
-function showNewShoppingCartForm(product) {
+function newShoppingCartForm(id) {
    $(".cart").append("<b>your order:<b>");
-   let ind = -1;                                        //TODO: does the product already in shopping list?
-   if (ind != -1) {
+   if (id in productsToOder) {
        console.log("alrready added, just increase ammount");
-       productsToOder[product] += 1;
+       productsToOder[id] += 1;
    } else {
        console.log("wasn't there before, added the first time");
-       productsToOder.push({product : 1});   
+       productsToOder[id] = 1;   
    }
-   console.log(productsToOder);
-   productsToOder.forEach( (item)=> {
-       showProductInShoppingCard(item);
-       console.log("forEach:")
-       console.log(item);
-   });
+   for (id in productsToOder){
+       showProductInShoppingCard(id)
+   }
    showCosts();
 }
-
-function findInAlreadyAdded(product) {}
                     
-function showProductInShoppingCard(item) {
-    let product = "pr";
-    let ammount = 0;
-    $(".cart").append(`<p>${product}: ${ammount}</p>`);      
+function showProductInShoppingCard(id) {
+    let name = productsDict[id]["name"];
+    let ammount = productsToOder[id];
+    $(".cart").append(`<p>${name}: ${ammount}</p>`);      
 } 
 
 function showCosts(){
@@ -152,4 +139,35 @@ function order() {
 
 function infoIsCorrect() {
     
+}
+
+function idOfClickedProduct(whereClicked) {
+    return whereClicked.siblings().eq(0).attr("id");
+}
+
+function toggleFavorite() {
+    let heart = $(this);
+    let divWithImage = idOfClickedProduct(heart);
+    heartBeat(heart);
+    let id = idOfClickedProduct(heart);
+    let ind = wishList.indexOf(id); 
+    if ( ind ) 
+        addToFavorite(id);
+    else
+        removeFromFavorite(ind);
+}
+
+function addToFavorite(id) {
+    console.log(`adding to wish list product with id: ${id}`);
+    wishList.push(id);  
+}
+
+function removeFromFavorite(ind) {
+    console.log(`removing product ${wishList[ind]} from favorite`);
+    wishList.splice(ind, 1);
+}
+
+function heartBeat(heart) {
+    heart.animate({width: 400}, 500);
+    heart.animate({width: 250}, 500);
 }
