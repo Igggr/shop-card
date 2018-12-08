@@ -12,12 +12,15 @@ $(function() {
    
     var products = $(".col.col-xs-12.col-md-6.col-lg-4");
     products.append(makeWagon());
-    products.append($("<img/>", {src: 'images/redHeart.png' , class: "heart"}))
+    products.append($("<img/>", {src: hollowHeartImage , class: "heart"}))
     $(".wagon").click(animationThenAddToCart);
     $(".heart").click(toggleFavorite);
+    $("#wishList").click(showWishList);
+    products.children().eq(2).click(showFullDescription); //only for first product ?
+
 });
 
-function productDiv(product) {
+function productDiv(product) { //TODO: more jquery-way
     /*
     let dv = $("div").attr("id", product.id);
     console.log("div..");
@@ -41,13 +44,13 @@ function productDiv(product) {
 }
 
 function animationThenAddToCart() { 
-    let id = idOfClickedProduct($(this));
-    blink($("#id"), 500);
-    wagonMove(id);
+    let clickedEl = $(this);
+    blink( divWithImage(clickedEl), 500);
+    wagonMove(clickedEl);
 }
 
-function blink(blinkMe, time) {
-     blinkMe.animate({left: "1000px", opacity:.1}, time)
+function blink(element, time) {
+     element.animate({left: "1000px", opacity:.1}, time)
             .animate({left: "1000px", opacity:1}, time);
 }
 
@@ -56,18 +59,24 @@ function makeWagon () {
 }
 
 
-function wagonMove(id) { //TODO: [x] wagon must move
+function wagonMove(clickedEl) { //TODO: wagon must move from the place were he is drawn
+    let id = idOfClickedProduct(clickedEl);
     let wagon = makeWagon();
-    $("body").append(wagon);
+    $("nav").append(wagon);
     wagon.animate({left: goalCoord[0], top: goalCoord[1], opacity: 0.3, width: '200px' }, 
                   1500, 
-                  () => addToCard(id)
-                 );
-    replaceWagon();    
+                  () => finishAnimation(id, wagon)
+                 );  
+     
 }
 
-function replaceWagon() {
-    
+function finishAnimation(id, wagon) {
+    addToCard(id);
+    removeWagon(wagon);
+}
+
+function removeWagon(wagon) {
+    wagon.detach();
 }
 
 function addToCard(id) {
@@ -87,7 +96,6 @@ function removeOldShoppingCartForm() {
 }
 
 function newShoppingCartForm(id) {
-   $(".cart").append("<b>your order:<b>");
    if (id in productsToOder) {
        console.log("alrready added, just increase ammount");
        productsToOder[id] += 1;
@@ -120,7 +128,7 @@ function updateCostOfOrder(price) {
     totalWithTax += priceWithTax(price, taxRate);
 }
 
-function calcTaxRate(price) {   //ToDo: Depend on zipCode?
+function calcTaxRate(price) {   //ToDo: Depend on?
     return 0.18;
 }
 
@@ -135,14 +143,24 @@ function priceWithTax(price, taxRate) {
 function order() {
     if (infoIsCorrect())
         placeOrder();
+    else 
+        askzForCorrectInfo();
 }
 
-function infoIsCorrect() {
+function infoIsCorrect() { //TODO: check is data iscorrect to confirm order
     
 }
 
+function askForCorrectInfo() {
+    
+}
+
+function divWithImage(whereClicked) {
+    return whereClicked.siblings().eq(0);
+}
+
 function idOfClickedProduct(whereClicked) {
-    return whereClicked.siblings().eq(0).attr("id");
+    return whereClicked.parent().children().eq(0).attr("id");
 }
 
 function toggleFavorite() {
@@ -151,23 +169,47 @@ function toggleFavorite() {
     heartBeat(heart);
     let id = idOfClickedProduct(heart);
     let ind = wishList.indexOf(id); 
-    if ( ind ) 
-        addToFavorite(id);
+    if ( ind == -1 ) 
+        addToFavorite(id, heart);
     else
-        removeFromFavorite(ind);
+        removeFromFavorite(ind, heart);
 }
 
-function addToFavorite(id) {
+function addToFavorite(id, heart) {
     console.log(`adding to wish list product with id: ${id}`);
+    heartToFull(heart);
     wishList.push(id);  
 }
 
-function removeFromFavorite(ind) {
+function removeFromFavorite(ind, heart) {
     console.log(`removing product ${wishList[ind]} from favorite`);
+    heartToHollow(heart);
     wishList.splice(ind, 1);
 }
 
 function heartBeat(heart) {
-    heart.animate({width: 400}, 500);
-    heart.animate({width: 250}, 500);
+    heart.animate({width: bigHeartSize}, 500);
+    heart.animate({width: smallHeartSize}, 500);
+}
+
+function heartToHollow(heart) {
+    heart.attr("src", hollowHeartImage);
+}
+
+function heartToFull(heart) {
+    heart.attr("src", fullHeartImage);
+}
+
+function showWishList() { //TODO: wishList
+    console.log("in wish list:");
+    wishList.forEach(function(id){  
+        console.log(id, productsDict[id]["description"]);
+    })
+}
+
+function showFullDescription() { //TODO: show full description
+    alert("not ready");    
+    let id = idOfClickedProduct($(this));   //undefined ?
+    let description = productsDict[id]["name"];
+    console.log(id, description);    
 }

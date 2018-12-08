@@ -7,7 +7,7 @@ body {
 
 .product {
     width: 250px;
-    height: auto;
+    height: 250px;
     z-index: 1;    
 }
 
@@ -18,14 +18,15 @@ body {
 
 .heart {
     height: auto;
-    width: 250px;
+    width: 50px;
     position: absolute;
     z-index : 2;
 }
 
 .wagon {
     height: auto;
-    width: 100px;
+    width: 150px;
     position: absolute;
     z-index : 3;
+    margin-left: 100px;
 }
