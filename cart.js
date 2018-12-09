@@ -1,3 +1,5 @@
+let wl = new WishList();
+
 $(function() {
     updateGoalCoord(goalCoord);
     let rw = $(".row").children().children(".row");   //TODO: rewrite more accuratly
@@ -12,10 +14,11 @@ $(function() {
    
     var products = $(".col.col-xs-12.col-md-6.col-lg-4");
     products.append(makeWagon());
-    products.append($("<img/>", {src: hollowHeartImage , class: "heart"}))
+    products.append($("<img/>", {src: CardioStimulator.hollowHeartImage , class: "heart"}))
     $(".wagon").click(animationThenAddToCart);
-    $(".heart").click(toggleFavorite);
-    $("#wishList").click(showWishList);
+    //$(".heart").click(toggleFavorite);
+    $(".heart").click(CardioStimulator.toggleLike);
+    $("#wishList").click(wl.showWishList);
     products.children().eq(2).click(showFullDescription); //only for first product ?
 
 });
@@ -55,7 +58,7 @@ function blink(element, time) {
 }
 
 function makeWagon () {
-    return $("<img/>", {src: 'images/wagon.png' , class: "wagon"});
+    return $("<img/>", {src: wagonImage , class: "wagon"});
 }
 
 
@@ -158,23 +161,27 @@ function askForCorrectInfo() {
 function divWithImage(whereClicked) {
     return whereClicked.siblings().eq(0);
 }
-
+/*
 function idOfClickedProduct(whereClicked) {
     return whereClicked.parent().children().eq(0).attr("id");
 }
+*/
 
 function toggleFavorite() {
     let heart = $(this);
     let divWithImage = idOfClickedProduct(heart);
     heartBeat(heart);
     let id = idOfClickedProduct(heart);
+    wl.toggleProduct(id);
+    /*
     let ind = wishList.indexOf(id); 
     if ( ind == -1 ) 
         addToFavorite(id, heart);
     else
         removeFromFavorite(ind, heart);
+    */
 }
-
+/*
 function addToFavorite(id, heart) {
     console.log(`adding to wish list product with id: ${id}`);
     heartToFull(heart);
@@ -199,17 +206,19 @@ function heartToHollow(heart) {
 function heartToFull(heart) {
     heart.attr("src", fullHeartImage);
 }
-
+*/
+/*
 function showWishList() { //TODO: wishList
     console.log("in wish list:");
     wishList.forEach(function(id){  
         console.log(id, productsDict[id]["description"]);
     })
 }
-
+*/
+/*
 function showFullDescription() { //TODO: show full description
     alert("not ready");    
     let id = idOfClickedProduct($(this));   //undefined ?
     let description = productsDict[id]["name"];
     console.log(id, description);    
-}
+}*/
