@@ -30,3 +30,9 @@ body {
     z-index : 3;
     margin-left: 100px;
 }
+
+.plusminus {
+    height: auto;
+    width: 20px;
+    display: inline-block
+}

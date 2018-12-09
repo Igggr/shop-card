@@ -4,8 +4,6 @@ let shopCard;
 
 $(function() {
     shopCard = new ShopCard();
-    shopCard.card.append("<p>your order can be here</p>");
-
     updateGoalCoord(goalCoord);
     let rw = $(".row").children().children(".row");   //TODO: rewrite more accuratly
     console.log(productsDict);

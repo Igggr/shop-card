@@ -12,7 +12,7 @@ class WishList {
     
     removeFrom(ind) {
         console.log(`remove from  wishList.... item om index ${ind}`)
-        this.wishList.splice(ind);   //TODO: this is wrong. rewrite
+        this.wishList.splice(ind, 1); 
         console.log(this.wishList);
     }
     
@@ -28,8 +28,8 @@ class WishList {
     showWishList() {  //TODO: actuallly show, not only write in console
         console.log("in class WishList:");
         console.log(this.wishList);
-        this.wishList.forEach(function(id){  // ?
-            console.log(id, productsDict[id]["description"]);
+        this.wishList.forEach(function(id){ 
+            console.log(id, productsDict[id]["name"]);
         });      
     }
     

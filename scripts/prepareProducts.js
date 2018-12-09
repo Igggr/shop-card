@@ -41,7 +41,7 @@ function updateGoalCoord(goalCoord) {
 addProductInfo("The Ring", 999999, "invisibility+1000", "one ring for", generateId(), "ring.jpg");
 addProductInfo("Light sword", 350, "atack +50", "all djeday must have one", generateId(), "light_sword.jpg");
 addProductInfo("The four leaf clover", 500, "luck +1", "want to be a luckier one?", generateId(), "clover.jpg");
-addProductInfo("The Ring", 999999, "invisibility + 1000", "one ring for", generateId(), "ring.jpg");
+addProductInfo("Magic book", 750, "spells not included", "magic for 21 day", generateId(), "magicBook.png");
 addProductInfo("The Ring", 999999, "invisibility + 1000", "one ring for", generateId(), "ring.jpg");
 addProductInfo("The Ring", 999999, "invisibility + 1000", "one ring for", generateId(), "ring.jpg");
 addProductInfo("The Ring", 999999, "invisibility + 1000", "one ring for", generateId(), "ring.jpg");
