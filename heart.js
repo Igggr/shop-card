@@ -2,6 +2,10 @@ function idOfClickedProduct(whereClicked) {
     return whereClicked.parent().children().eq(0).attr("id");
 }
 
+function divWithImage(whereClicked) {
+    return whereClicked.siblings().eq(0);
+}
+
 
 class CardioStimulator { 
     
@@ -13,14 +17,12 @@ class CardioStimulator {
     static toggleLike() {
         let heart = $(this);
         let productId = idOfClickedProduct(heart);
-        let likedNow = wl.toggleProduct(productId)
+        let likedNow = wl.toggleProduct(productId);
+        
+        CardioStimulator.blink( divWithImage(heart), 500);
         CardioStimulator.beat(heart);
-        if (likedNow) {
-            CardioStimulator.setImage(heart, CardioStimulator.fullHeartImage);
-        }
-        else {
-            CardioStimulator.setImage(heart, CardioStimulator.hollowHeartImage);
-        }
+        let image = likedNow ? CardioStimulator.fullHeartImage : CardioStimulator.hollowHeartImage
+        CardioStimulator.setImage(heart, image);
     }
     
     static beat(heart) {
@@ -30,5 +32,11 @@ class CardioStimulator {
     
     static setImage(heart, newImage){
         heart.attr("src", newImage);
-    };   
+    }   
+    
+    static blink(element, time) {
+        console.log(element);
+        element.animate({left: "1000px", opacity:.1}, time)
+               .animate({left: "1000px", opacity:1}, time);
+    }
 }

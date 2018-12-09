@@ -1,4 +1,4 @@
-class WishList {  //TODO: 
+class WishList {  
     
     constructor (){
         this.wishList = [];
@@ -12,7 +12,7 @@ class WishList {  //TODO:
     
     removeFrom(ind) {
         console.log(`remove from  wishList.... item om index ${ind}`)
-        this.wishList.splice(ind);   //wrong
+        this.wishList.splice(ind);   //TODO: this is wrong. rewrite
         console.log(this.wishList);
     }
     
@@ -25,9 +25,10 @@ class WishList {  //TODO:
         return ind == -1;     //true if we added product, so now it is in wish list
     }
     
-    showWishList() {
+    showWishList() {  //TODO: actuallly show, not only write in console
         console.log("in class WishList:");
-        this.wishList.forEach(function(id){  
+        console.log(this.wishList);
+        this.wishList.forEach(function(id){  // ?
             console.log(id, productsDict[id]["description"]);
         });      
     }
