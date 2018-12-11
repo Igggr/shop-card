@@ -31,8 +31,29 @@ body {
     margin-left: 100px;
 }
 
-.plusminus {
+.sign {
     height: auto;
     width: 20px;
     display: inline-block
+}
+
+#wishListWindow {
+    text-align: center;
+    font-size: 30px;
+    position: absolute;
+    z-index: 2;
+    margin-left: 50px;
+    width: 600px;
+    background-color: aliceblue;
+    border-radius: 50px;
+}
+
+#wishListWindow li {
+    font-size: 20px;
+    list-style-type: none;
+    height: 20px;
+}
+
+button {
+    display: inline-block;
 }

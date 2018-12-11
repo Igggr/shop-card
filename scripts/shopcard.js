@@ -1,10 +1,14 @@
 class ShopCard {
     constructor () {
         this.productsToOrder = [];
-        this.card = $(".cart");   //wil be find only once
+        this.card = $(".cart");   //will be find only once
         this.priceWithoutTax = 0;
         this.tax = 0;
         this.priceWithTax = 0;
+        this.confirmBtn = $("<button>Confirm Order</button>");
+        this.confirmBtn.click(this.confirmOrder);   
+        this.detailsBtn = $("<button>Order Information</button>");
+        this.detailsBtn.click( () => alert("not ready"));
     }
       
     addToCard(id) {
@@ -27,6 +31,8 @@ class ShopCard {
     }
     
     removeOldShoppingCartForm() {
+        this.detailsBtn.detach();
+        this.confirmBtn.detach(); //keep events associated with this button
         this.card.empty();
     }
 
@@ -35,6 +41,9 @@ class ShopCard {
         this.removeOldShoppingCartForm();
         this.showAllProductsInShoppingCard();
         this.showCosts();
+        this.card.append(this.detailsBtn);
+        this.card.append(this.confirmBtn);
+        
     }
     
     
@@ -63,13 +72,13 @@ class ShopCard {
     }
     
     plus(id) {
-        let plus_ = $("<img class='plusminus' src = images/plus.png>");
+        let plus_ = $("<img class='sign' src = images/plus.png>");
         plus_.click(() => this.addToCard(id));
         return plus_;
     }
     
     minus(id) {
-        let minus_ = $("<img class='plusminus' src = images/minus.png>");
+        let minus_ = $("<img class='sign' src = images/minus.png>");
         minus_.click(() => this.removeFromCard(id));
         return minus_;
     }
@@ -81,8 +90,10 @@ class ShopCard {
         } else 
             this.productsToOrder[id] -= 1;
         this.newShoppingCartForm();
-        
-        
+    }
+    
+    confirmOrder() {
+        alert("thanks for buying from us")
     }
 }
 
