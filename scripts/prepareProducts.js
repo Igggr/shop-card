@@ -1,14 +1,15 @@
-let goalCoord = [0, 0];   //wagons will move here
+let goalCoord = [0, 0]; //wagons will move here
 let productsDict = {};
 
-function addProductInfo(name_, price_, description_, full_descr_, id_, image_){
-    //console.log(`adding product with id: ${id_}`);
-    productsDict[id_] = {name: name_, 
-                         price: price_, 
-                         description: description_, 
-                         full_descr: full_descr_, 
-                         id: id_, 
-                         image: image_};
+function addProductInfo(name_, price_, description_, full_descr_, id_, image_) {
+    productsDict[id_] = {
+        name: name_,
+        price: price_,
+        description: description_,
+        full_descr: full_descr_,
+        id: id_,
+        image: image_
+    };
 }
 
 function closure() {
@@ -18,8 +19,8 @@ function closure() {
 
 let increasingNumbers = closure();
 
-function generateId() { 
-    return `productId#${increasingNumbers()}`; 
+function generateId() {
+    return `productId#${increasingNumbers()}`;
 }
 /*
 $(window).resize() {
@@ -27,7 +28,7 @@ $(window).resize() {
 }
 */
 function updateGoalCoord(goalCoord) {
-    goalCoord[0] = window.innerWidth-300;
+    goalCoord[0] = window.innerWidth - 300;
     goalCoord[1] = 200;
 }
 
