@@ -38,6 +38,7 @@ class WagonPusher {
         WagonPusher.offsetWagon(wagon, offsetPos);
         wagon.css("position, fixed");
         $("body").append(wagon);
+        console.log(wagon);
         wagon.animate({
                 left: goalCoord[0],
                 top: goalCoord[1],

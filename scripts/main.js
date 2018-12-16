@@ -23,8 +23,6 @@ $(function () {
     }))
     $(".wagon").click(WagonPusher.wagonMove);
     $(".heart").click(CardioStimulator.toggleLike);
-    $("#wishList").click(() => wl.toggleWishList());
-    //$("#wishList").click( wl.toggleWishList );    //what the difference
 
     products.each((ind, ob) => $(ob).children(".info").click(ProductShowCase.showFullDescription));
 

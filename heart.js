@@ -39,7 +39,7 @@ var CardioStimulator = /** @class */ (function () {
     CardioStimulator.toggleLike = function () {
         var heart = $(this);
         var productId = idOfClickedProduct(heart);
-        var likedNow = wl.toggleProduct(productId);
+        var likedNow = true; // wl.toggleProduct(productId);
         ProductShowCase.blinkProduct(heart);
         CardioStimulator.beat(heart);
         var image = likedNow ? CardioStimulator.fullHeartImage : CardioStimulator.hollowHeartImage;

@@ -2,68 +2,40 @@ class WishList {
 
     constructor() {
         this.wishList = [];
-        this.place = $("#wishListWindow");
-        this.shownRightNow = false;
+        this.wishModalBody = $("#inWishList");
+    }
+
+    updateModalContent() {
+        if (this.wishList.length == 0)
+            this.wishModalBody.html("wishlist is empty");
+        else {
+            this.wishModalBody.empty();
+            let content = "";
+            for (let i=0; i< this.wishList.length; i++) {
+                let id = this.wishList[i];
+                content += `<p>${i+1}: ${productsDict[id]["name"]}</p>`;
+            }
+            this.wishModalBody.html(content);
+        }
     }
 
     addTo(productId) {
-        console.log(`adding to wishList....${productId}`)
         this.wishList.push(productId);
-        console.log(this.wishList);
     }
 
     removeFrom(ind) {
-        console.log(`remove from  wishList.... item om index ${ind}`)
         this.wishList.splice(ind, 1);
-        console.log(this.wishList);
     }
 
     toggleProduct(productId) {
+        console.log(`product ${productId} toggled in wishlist`);
         let ind = this.wishList.indexOf(productId);
         if (ind == -1)
             this.addTo(productId);
         else
             this.removeFrom(ind);
-        if (this.shownRightNow)
-            this.showWishList();
-        return ind == -1; //true if we added product, so now it is in wish list
-    }
-
-    toggleWishList() {
-        if (this.shownRightNow)
-            this.hideWishList();
-        else
-            this.showWishList();
-    }
-
-    showWishList() { //TODO: actuallly show, not only write in console
-        console.log(this.wishList);
-        this.hideWishList();
-        if (this.wishList.length === 0)
-            this.showEmtyWishList();
-        else
-            this.showNonEmptyWishList();
-        this.shownRightNow = true;
-    }
-
-    showNonEmptyWishList() {
-        let liked = "";
-        this.wishList.forEach(function (id) {
-            console.log(id, productsDict[id]["name"]);
-            liked += `<li>${productsDict[id]["name"]}</li>`
-        });
-        this.place.append("you liked following products")
-            .append(`<ul>${liked}</ul>`);
-    }
-
-    showEmtyWishList() {
-        console.log("nothing in your wishList");
-        this.place.append("you doesn't add anything to wish list))");
-    }
-
-    hideWishList() {
-        this.place.empty();
-        this.shownRightNow = false;
+        this.updateModalContent();
+        return ind == -1;
     }
 
 }
